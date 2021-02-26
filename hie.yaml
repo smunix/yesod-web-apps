@@ -1,0 +1,7 @@
+cradle:
+  cabal:
+    - path: "festhest/src-exe/Main.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Paths_festhest.hs"
+      component: "festhest:exe:festhest"
