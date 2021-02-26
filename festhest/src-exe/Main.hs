@@ -6,10 +6,14 @@ data App = App
 
 instance Yesod App
 
-mkYesod "App" [parseRoutes| HomeR GET |]
+mkYesod
+  "App"
+  [parseRoutes|
+              / HomeR GET
+              |]
 
 getHomeR :: Handler Html
-getHomeR = defaultLayout [whamlet| <h1>Hello, Haskell funs! |]
+getHomeR = defaultLayout [whamlet| <h1>Hello, Haskell fanatics! |]
 
 main :: IO ()
 main = do

@@ -18,4 +18,4 @@ executables:
       - yesod
 
     extra-libraries:
-      - zlib
+      - z
