@@ -26,5 +26,7 @@ executable festhest
       z
   build-depends:
       base
+    , wai
+    , wai-extra
     , yesod
   default-language: Haskell2010
