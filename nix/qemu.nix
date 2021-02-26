@@ -22,7 +22,7 @@ with haskell.lib;
               after = [ "network.target" ];
               serviceConfig = {
                 Type = "forking";
-                User = "root";
+                User = "${user}";
                 ExecStart = "${apps.festhest}/bin/festhest";
               };
             };
@@ -33,13 +33,14 @@ with haskell.lib;
                   password = "";
                 };
                 "${user}" = {
-                  isSystemUser = true;
+                  isNormalUser = true;
+                  createHome = true;
                   password = "";
+                  extraGroups = [ "wheel" ];
                 };
               };
               extraUsers = {
                 "${user}" = {
-                  group = "wheel";
                   shell = pkgs.fish;
                 };
               };
