@@ -6,7 +6,6 @@ with haskellPackages;
 with haskell.lib;
 {
   qemu = recurseIntoAttrs ({
-    
     vm = (import "${nixpkgs}/nixos" {
       inherit system;
       configuration = { config, pkgs, ... }:
@@ -22,7 +21,16 @@ with haskell.lib;
               ExecStart = "${apps.festhest}/bin/festhest";
             };
           };
-          
+          users = {
+            mutableUsers = false;
+            users = {
+              root.password = "";
+              "festhest".isSystemUser = true;
+            };
+          };
+          virtualisation = {
+            graphics = false;
+          };
         };
     }).vm; 
   });
