@@ -4,8 +4,7 @@ prev:
 with final;
 with haskellPackages;
 with haskell.lib;
-let user = "king";
-    hostname = "olhajwon";
+let hostname = "olhajwon";
 in
 {
   qemu = recurseIntoAttrs ({
@@ -13,65 +12,85 @@ in
       inherit system;
       configuration = { config, pkgs, ... }:
         with (import ./overlays.nix { inherit system version; } final prev);
-        let amahoro-start-pre-script =
-              pkgs.writeScriptBin "amahoro-start-pre-script" ''
-                #!${pkgs.stdenv.shell}
-                mkdir -pv /home/${user}/static/
-                mkdir -pv /home/${user}/config/
-              '';
+        let applySystemdScript = { name }:
+              with pkgs;
+              rec {
+                workingDir = "/home/${name}";
+                variables = {
+                  YESOD_STATIC_DIR = "${workingDir}/static";
+                  YESOD_CONFIG_DIR = "${workingDir}/config";
+                };
+                exec = {
+                  start = rec {
+                    pre-script = writeScriptBin "${name}" ''
+                      #!${stdenv.shell}
+                      mkdir -pv ${variables.YESOD_STATIC_DIR}
+                      mkdir -pv ${variables.YESOD_CONFIG_DIR}
+                    '';
+                    pre = "${pre-script}/bin/${name}";
+                    x = let app = apps."${name}";
+                        in "${app}/bin/${name}";
+                  };
+                  
+                };
+              };
+            mkSystemPackages = { name }:
+              [ apps."${name}"
+                (applySystemdScript { inherit name; }).exec.start.pre-script
+              ];
+            mkUser = { name, passwd ? "${name}" }:
+              {
+                "${name}" = {
+                  isNormalUser = true;
+                  createHome = true;
+                  password = "${passwd}";
+                  shell = fish;
+                  extraGroups = [ "wheel" ];
+                };
+              };
+            mkSystemdService = { name }:
+              {
+                "${name}" =
+                  with (applySystemdScript { inherit name; });
+                  {
+                    enable = true;
+                    description = "${name} Web app";
+                    wantedBy = [ "default.target" ];
+                    after = [ "network.target" ];
+                    serviceConfig =
+                      {
+                        Type = "simple";
+                        User = "${name}";
+                        WorkingDirectory = "${workingDir}";
+                        ExecStartPre = "${exec.start.pre}";
+                        ExecStart = "${exec.start.x}";
+                      };
+                    environment = {
+                      YESOD_STATIC_DIR = "${variables.YESOD_STATIC_DIR}";
+                    };
+                  };
+              };
         in
           {
             networking.hostName = hostname;
             networking.firewall.allowedTCPPorts = [ 22 3080 3000 ];
-            environment.systemPackages = [
-              apps.festhest
-              apps.amahoro
-            ];
-            systemd.services.festhest = {
-              enable = true;
-              description = "festhest Webserver";
-              wantedBy = [ "default.target" ];
-              after = [ "network.target" ];
-              serviceConfig = {
-                Type = "simple";
-                User = "${user}";
-                WorkingDirectory = "~";
-                ExecStart = "${apps.festhest}/bin/festhest";
-              };
-            };
-            systemd.services.amahoro = {
-              enable = true;
-              description = "amahoro Webserver";
-              wantedBy = [ "default.target" ];
-              after = [ "network.target" ];
-              serviceConfig = {
-                Type = "simple";
-                User = "${user}";
-                WorkingDirectory = "~";
-                ExecStartPre = "${amahoro-start-pre-script}/bin/amahoro-start-pre-script";
-                ExecStart = "${apps.amahoro}/bin/amahoro";
-              };
-              environment = {
-                YESOD_STATIC_DIR = "/home/${user}/static/";
-              };
+            environment.systemPackages =
+              []
+              ++ (mkSystemPackages { name = "festhest"; })
+              ++ (mkSystemPackages { name = "amahoro"; })
+            ;
+            systemd.services = {
+              inherit (mkSystemdService { name = "festhest"; }) festhest;
+              inherit (mkSystemdService { name = "amahoro"; }) amahoro;
             };
             users = {
               mutableUsers = false;
               users = {
                 root = {
-                  password = "";
+                  password = "root";
                 };
-                "${user}" = {
-                  isNormalUser = true;
-                  createHome = true;
-                  password = "";
-                  extraGroups = [ "wheel" ];
-                };
-              };
-              extraUsers = {
-                king = {
-                  shell = pkgs.fish;
-                };
+                inherit (mkUser { name = "festhest"; }) festhest;
+                inherit (mkUser { name = "amahoro"; }) amahoro;
               };
             };
             security.sudo = {
