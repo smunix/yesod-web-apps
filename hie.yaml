@@ -1,5 +1,20 @@
 cradle:
   cabal:
+    - path: "amahoro/src"
+      component: "lib:amahoro"
+
+    - path: "amahoro/app/main.hs"
+      component: "amahoro:exe:amahoro"
+
+    - path: "amahoro/app/DevelMain.hs"
+      component: "amahoro:exe:amahoro"
+
+    - path: "amahoro/app/Paths_amahoro.hs"
+      component: "amahoro:exe:amahoro"
+
+    - path: "amahoro/test"
+      component: "amahoro:test:amahoro-test"
+
     - path: "festhest/src-exe/Main.hs"
       component: "festhest:exe:festhest"
 

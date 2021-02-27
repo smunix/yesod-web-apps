@@ -17,15 +17,21 @@ executable festhest
   hs-source-dirs:
       src-exe
   default-extensions:
+      BlockArguments
+      GADTs
+      LambdaCase
       OverloadedStrings
       QuasiQuotes
       TemplateHaskell
+      TypeApplications
       TypeFamilies
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   extra-libraries:
       z
   build-depends:
       base
+    , bytestring
+    , http-types
     , wai
     , wai-extra
     , yesod

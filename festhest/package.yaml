@@ -1,9 +1,13 @@
 name: festhest
 version: "0.0.0.1"
 default-extensions:
+  - BlockArguments
+  - GADTs
+  - LambdaCase
   - OverloadedStrings
   - QuasiQuotes
   - TemplateHaskell
+  - TypeApplications
   - TypeFamilies
 executables:
   festhest:
@@ -15,6 +19,8 @@ executables:
       - -with-rtsopts=-N
     dependencies:
       - base
+      - bytestring
+      - http-types
       - wai-extra
       - wai
       - yesod
