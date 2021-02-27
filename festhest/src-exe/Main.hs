@@ -78,4 +78,4 @@ getHomeR = defaultLayout [whamlet| <h1>Hello, Haskell fanatics! |]
 main :: IO ()
 main = do
   putStrLn "Starting Warp 80 App..."
-  warp 80 App
+  warp 3080 App
