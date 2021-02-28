@@ -7,13 +7,16 @@
     eachSystem [ "x86_64-linux" ] (system:
       let version = "${nixpkgs.lib.substring 0 8 self.lastModifiedDate}.${self.shortRev or "dirty"}"; 
           overlays = [ (import ./nix/overlays.nix { inherit system version; })
-                       (import ./nix/qemu.nix { inherit system version nixpkgs; })
+                       (import ./nix/qemu.nix { hostname = "olhajwon"; inherit system version nixpkgs; })
                      ];
       in
         with (import nixpkgs { inherit system overlays; });
-        rec {
+        {
           packages = flattenTree ( recurseIntoAttrs {
             inherit apps qemu;
           });
-      });
+          apps = flattenTree (recurseIntoAttrs {
+            inherit (qemu) olhajwon-vm;
+          });
+        });
 }

@@ -1,13 +1,11 @@
-{ system, version, nixpkgs, ... }:
+{ hostname, system, version, nixpkgs, ... }:
 final:
 prev:
 with final;
 with haskellPackages;
 with haskell.lib;
-let hostname = "olhajwon";
-in
 {
-  qemu = recurseIntoAttrs ({
+  qemu = recurseIntoAttrs (rec {
     "${hostname}" = (import "${nixpkgs}/nixos" {
       inherit system;
       configuration = { config, pkgs, ... }:
@@ -92,13 +90,30 @@ in
                 inherit (mkUser { name = "festhest"; }) festhest;
                 inherit (mkUser { name = "amahoro"; }) amahoro;
               };
+              extraGroups.vboxusers.members = [ "amahoro" ];
             };
             security.sudo = {
               enable = true;
               wheelNeedsPassword = false;
             };
+            # Enable the KDE Desktop Environment.
+            services.xserver.displayManager.sddm.enable = true;
+            services.xserver.desktopManager.plasma5.enable = true;
+            services.xserver = {
+              windowManager = {
+                awesome = {
+                  enable = true;
+                  luaModules = [ pkgs.luaPackages.luaposix ];
+                };
+              };
+            };
+            
+            services.xserver.autorun = true;
+            services.xserver.enable = true;
+
             virtualisation = {
-              graphics = false;
+              virtualbox.host.enable = true;
+              graphics = true;
               # https://wiki.qemu.org/Documentation/Networking#Network_Basics
               qemu.networkingOptions = [
                 # "-net nic,netdev=user.0,model=virtio"
@@ -107,6 +122,16 @@ in
               ];
             };
           };
-    }).vm; 
+    }).vm;
+    "${hostname}-vm" = {
+      type = "app";
+      program =
+        let vm = "${hostname}";
+            script = writeScriptBin "${hostname}-vm" ''
+             #!${stdenv.shell}
+             exec ${vm}/bin/run-${hostname}-vm
+           '';
+        in "${script}/bin/${hostname}-vm";
+    };
   });
 }
