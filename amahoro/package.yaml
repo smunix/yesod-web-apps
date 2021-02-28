@@ -4,6 +4,7 @@ version: "0.0.0.1"
 dependencies:
 
 - base >=4.9.1.0
+- blaze-html
 - yesod >=1.6 && <1.7
 - yesod-core >=1.6 && <1.7
 - yesod-static >=1.6 && <1.7
