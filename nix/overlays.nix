@@ -6,7 +6,7 @@ with haskellPackages;
 with haskell.lib;
 {
   apps = recurseIntoAttrs ({
-    festhest = overrideCabal (callCabal2nix "festhest" ../festhest {}) (o: { version = o.version + "-" + version; });
-    amahoro = overrideCabal (callCabal2nix "amahoro" ../amahoro {}) (o: { version = o.version + "-" + version; });
+    festhest = overrideCabal (addBuildTool (callCabal2nix "festhest" ../festhest {}) yesod-bin) (o: { version = o.version + "-" + version; });
+    amahoro = overrideCabal (addBuildTool (callCabal2nix "amahoro" ../amahoro {}) yesod-bin) (o: { version = o.version + "-" + version; });
   });
 }

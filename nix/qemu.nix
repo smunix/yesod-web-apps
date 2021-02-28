@@ -99,6 +99,12 @@ in
             };
             virtualisation = {
               graphics = false;
+              # https://wiki.qemu.org/Documentation/Networking#Network_Basics
+              qemu.networkingOptions = [
+                # "-net nic,netdev=user.0,model=virtio"
+                "-device virtio-net-pci,netdev=user.0 "
+                "-netdev type=user,id=user.0\${QEMU_NET_OPTS:+,$QEMU_NET_OPTS},hostfwd=tcp::3080-:3080,hostfwd=tcp::3000-:3000"
+              ];
             };
           };
     }).vm; 

@@ -24,6 +24,5 @@ executables:
       - wai-extra
       - wai
       - yesod
-
     extra-libraries:
       - z
