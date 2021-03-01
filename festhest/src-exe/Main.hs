@@ -1,13 +1,23 @@
 {-# LANGUAGE EmptyCase #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# OPTIONS_GHC -Wno-missing-methods #-}
 
 module Main where
 
+import qualified Chap7
+import qualified Chap8
+import qualified Control.Concurrent.Async as Async
 import Control.Monad ((>=>))
 import Data.ByteString.Builder
 import qualified Data.ByteString.Lazy as BL
 import Data.Function
+import qualified Error
+import Message (Message (Message))
 import Network.HTTP.Types (status200, status404)
 import Network.Wai
+import Slash (Slash (Slash))
 import System.IO (IOMode (ReadMode), withBinaryFile)
 import Yesod
 
@@ -64,18 +74,72 @@ vhost org com = simpleRun
 
 data App = App
 
-instance Yesod App
+instance Yesod App where
+  defaultLayout w = do
+    pc <- widgetToPageContent do
+      w
+      toWidget [lucius|body { font-family: verdana }|]
+      [whamlet|
+        <footer>
+          <p>
+            Footer Addition (Copyright???)
+      |]
+    withUrlRenderer
+      [hamlet|
+          $doctype 5
+          <html>
+            <head>
+              <title>#{pageTitle pc}
+              <meta charset=utf-8>
+              ^{pageHead pc}
+            <body>
+              <figure>
+                ^{pageBody pc}
+        |]
 
 mkYesod
   "App"
   [parseRoutes|
-              / HomeR GET
-              |]
+    / HomeR GET
+    /some/path SomePathR GET
+  |]
+
+getSomePathR :: Handler Html
+getSomePathR = defaultLayout page
+  where
+    page = do
+      setTitle "SomePath"
+      [whamlet|<p>SomePath|]
 
 getHomeR :: Handler Html
-getHomeR = defaultLayout [whamlet| <h1>Hello, Haskell fanatics! |]
+getHomeR = defaultLayout page
+  where
+    footer :: Widget
+    footer =
+      toWidget
+        [hamlet|
+           <footer>
+             <p>That's all folks!
+        |]
+
+    page :: Widget
+    page = do
+      setTitle "Html"
+      [whamlet|
+          <p>
+             This is my page. I hope you enjoyed it.
+          ^{footer}
+        |]
 
 main :: IO ()
 main = do
-  putStrLn "Starting Warp 80 App..."
-  warp 3080 App
+  putStrLn "Starting Warps 80 / 81 App..."
+  [ warp 3080 App,
+    warp 3081 Slash,
+    warp 3082 Message,
+    warp 3083 Error.App,
+    warp 3087 Chap7.App,
+    warp 3088 Chap8.App
+    ]
+    & Async.mapConcurrently_ id
+  putStrLn "Ending Warp 80 / 81 App..."
