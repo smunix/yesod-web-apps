@@ -1,0 +1,26 @@
+name:    amakuru
+version: "0.0.0.1"
+
+dependencies:
+- aeson
+- base >=4.9.1.0
+- http-types
+- monad-logger
+- mtl
+- persistent-sqlite
+- persistent-template
+- resourcet
+- time
+- text
+- transformers
+- yesod
+
+executables:
+  amakuru:
+    main: Item.hs
+    source-dirs: .
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+
