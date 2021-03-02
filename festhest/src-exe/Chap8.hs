@@ -44,7 +44,7 @@ data Person where
   deriving (Show)
 
 personForm :: Html -> MForm Handler (FormResult Person, Widget)
-personForm = renderDivs m
+personForm = renderTable m
   where
     m :: AForm Handler Person
     m = do
@@ -67,8 +67,17 @@ personForm = renderDivs m
 postPersonR :: Handler Html
 postPersonR = do
   ((result, widget), enctype) <- runFormPost personForm
+  now <- liftIO getCurrentTime
   case result of
-    FormSuccess person -> defaultLayout [whamlet|<p>#{show person}|]
+    FormSuccess person -> defaultLayout do
+      [whamlet|
+        <p>#{show person}
+        <hr>
+        <p>#{show now}
+        <form method=post action=@{PersonR} enctype=#{enctype}>
+          ^{widget}
+          <button>Submit
+      |]
     _ ->
       defaultLayout
         [whamlet|
