@@ -5,7 +5,7 @@
                 Yesod—a modern framework for cheeky developers.
             <h2>
                 Fast, stable & spiced with great community
-            <a href="http://www.yesodweb.com/book/" .btn.btn-info.btn-lg>
+            <a href="http://www.yesodweb.com/book/" .btn.btn-info>
                 Read the Book
 
 <div .container>
@@ -13,7 +13,7 @@
         ================================================== -->
     <div .bs-docs-section>
         <div .row>
-            <div .col-lg-12>
+            <div .col-lg-6>
                 <div .page-header>
                     <h1 #start>Starting
 
@@ -58,7 +58,7 @@
         ================================================== -->
     <div .bs-docs-section>
         <div .row>
-            <div .col-lg-12>
+            <div .col-lg-6>
                 <div .page-header>
                     <h1 #forms>Forms
 
@@ -93,7 +93,7 @@
         ================================================== -->
     <div .bs-docs-section>
         <div .row>
-            <div .col-lg-12>
+            <div .col-lg-6>
                 <div .page-header>
                     <h1 #json>JSON
 
@@ -127,7 +127,7 @@
        ================================================== -->
     <div .bs-docs-section>
        <div .row>
-           <div .col-lg-12>
+           <div .col-lg-6>
                <div .page-header>
                    <h1 #test>Testing
 

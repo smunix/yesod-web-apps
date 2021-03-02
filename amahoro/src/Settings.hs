@@ -122,10 +122,11 @@ compileTimeAppSettings =
         Error e -> error e
         Success settings -> settings
 
+
 -- The following two functions can be used to combine multiple CSS or JS files
 -- at compile time to decrease the number of http requests.
 -- Sample usage (inside a Widget):
---
+-- 
 -- > $(combineStylesheets 'StaticR [style1_css, style2_css])
 
 combineStylesheets :: Name -> [Route Static] -> Q Exp

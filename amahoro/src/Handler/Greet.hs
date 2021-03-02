@@ -18,7 +18,24 @@ getGreetR name =
       pure $
         object
           ["name" .= name]
-    provideRep $ defaultLayout do
+    provideRep $ greetLayout do
       let handlerName = "getGreetR" :: Text
-      setTitle "Greetings There!"
+      setTitle "Greetings (greetLayout) There!"
       [whamlet|<p>Greetings to my folks - #{name} - from #{handlerName}|]
+
+greetLayout :: Widget -> Handler Html
+greetLayout widget = do
+  pc <- widgetToPageContent widget
+  withUrlRenderer
+    [hamlet|
+           $doctype 5
+           <html>
+             <head>
+               <title>#{pageTitle pc}
+               <meta charset=utf-8>
+               <style>body { font-family: verdana }
+               ^{pageHead pc}
+             <body>
+               <article>
+                 ^{pageBody pc}
+           |]
