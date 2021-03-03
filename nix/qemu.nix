@@ -73,15 +73,17 @@ in
         in
           {
             networking.hostName = hostname;
-            networking.firewall.allowedTCPPorts = [ 22 3080 3000 ];
+            networking.firewall.allowedTCPPorts = [ 22 3000 3080 3081 3091 ];
             environment.systemPackages =
               (with pkgs; [ htop ])
               ++ (mkSystemPackages { name = "festhest"; })
               ++ (mkSystemPackages { name = "amahoro"; })
+              ++ (mkSystemPackages { name = "amakuru"; })
             ;
             systemd.services = {
               inherit (mkSystemdService { name = "festhest"; }) festhest;
               inherit (mkSystemdService { name = "amahoro"; }) amahoro;
+              inherit (mkSystemdService { name = "amakuru"; }) amakuru;
             };
             users = {
               mutableUsers = false;
@@ -91,6 +93,7 @@ in
                 };
                 inherit (mkUser { name = "festhest"; }) festhest;
                 inherit (mkUser { name = "amahoro"; }) amahoro;
+                inherit (mkUser { name = "amakuru"; }) amakuru;
               };
             };
             security.sudo = {
@@ -103,7 +106,7 @@ in
               # https://wiki.qemu.org/Documentation/Networking#Network_Basics
               qemu.networkingOptions = [
                 "-device virtio-net-pci,netdev=user.0"
-                "-netdev type=user,id=user.0\${QEMU_NET_OPTS:+,$QEMU_NET_OPTS},hostfwd=tcp::3080-:3080,hostfwd=tcp::3000-:3000"
+                "-netdev type=user,id=user.0\${QEMU_NET_OPTS:+,$QEMU_NET_OPTS},hostfwd=tcp::3081-:3081,hostfwd=tcp::3091-:3091,hostfwd=tcp::3080-:3080,hostfwd=tcp::3000-:3000"
               ];
             };
           };

@@ -58,7 +58,7 @@ sampleForm =
     -- Add attributes like the placeholder and CSS classes.
     textSettings =
       FieldSettings
-        { fsLabel = "What's on your file?",
+        { fsLabel = "What's on the file?",
           fsTooltip = Nothing,
           fsId = Nothing,
           fsName = Nothing,
