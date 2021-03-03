@@ -73,7 +73,7 @@ in
         in
           {
             networking.hostName = hostname;
-            networking.firewall.allowedTCPPorts = [ 22 3000 3080 3081 ];
+            networking.firewall.allowedTCPPorts = [ 22 3000 3080 3081 3091 ];
             environment.systemPackages =
               (with pkgs; [ htop ])
               ++ (mkSystemPackages { name = "festhest"; })
