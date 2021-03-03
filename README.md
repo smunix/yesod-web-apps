@@ -19,6 +19,12 @@ ghcid -W --test='DevelMain.update' -c 'APP_ENV=development stack ghci --no-build
 
 It works wonders!
 
+## festhest ghcid
+Start with
+``` sh
+ghcid -W --test='main' -c 'cabal repl' -a
+```
+
 ## Start a Qemu/kvm Server with amahoro and festhest both running
 ```sh
 QEMU_NET_OPTS=hostfwd=tcp::3080-:3080,hostfwd=tcp::3000-:3000 nix shell github:smunix/yesod-web-apps#qemu/olhajwon -c run-olhajwon-vm
