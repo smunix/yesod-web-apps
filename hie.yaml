@@ -15,6 +15,12 @@ cradle:
     - path: "amahoro/test"
       component: "amahoro:test:amahoro-test"
 
+    - path: "amakuru/./Item.hs"
+      component: "amakuru:exe:amakuru"
+
+    - path: "amakuru/./Paths_amakuru.hs"
+      component: "amakuru:exe:amakuru"
+
     - path: "festhest/src-exe/Main.hs"
       component: "festhest:exe:festhest"
 
