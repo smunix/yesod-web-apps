@@ -15,6 +15,7 @@ executable festhest
   other-modules:
       Chap7
       Chap8
+      Chap9
       Error
       Message
       Slash

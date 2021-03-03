@@ -8,6 +8,7 @@ module Main where
 
 import qualified Chap7
 import qualified Chap8
+import qualified Chap9
 import qualified Control.Concurrent.Async as Async
 import Control.Monad ((>=>))
 import Data.ByteString.Builder
@@ -134,12 +135,13 @@ getHomeR = defaultLayout page
 main :: IO ()
 main = do
   putStrLn "Starting Warps 80 / 81 App..."
-  [ warp 3080 App,
-    warp 3081 Slash,
-    warp 3082 Message,
-    warp 3083 Error.App,
-    warp 3087 Chap7.App,
-    warp 3088 Chap8.App
+  [ warp 5080 App,
+    warp 5081 Slash,
+    warp 5082 Message,
+    warp 5083 Error.App,
+    warp 5087 Chap7.App,
+    warp 5088 Chap8.App,
+    warp 5089 Chap9.App
     ]
     & Async.mapConcurrently_ id
   putStrLn "Ending Warp 80 / 81 App..."
