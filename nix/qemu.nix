@@ -92,6 +92,7 @@ in
                   password = "root";
                 };
                 inherit (mkUser { name = "festhest"; }) festhest;
+                inherit (mkUser { name = "amahoro"; }) amahoro;
                 inherit (mkUser { name = "amakuru"; }) amakuru;
               };
             };
