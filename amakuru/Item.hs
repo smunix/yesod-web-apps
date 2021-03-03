@@ -187,4 +187,4 @@ main =
           flip runSqlPool pool $ do
             runMigration migrateAll
             insert $ Item (-10)
-        warp 3000 $ App pool
+        warp 3081 $ App pool
