@@ -73,15 +73,17 @@ in
         in
           {
             networking.hostName = hostname;
-            networking.firewall.allowedTCPPorts = [ 22 3080 3000 ];
+            networking.firewall.allowedTCPPorts = [ 22 3000 3080 3081 ];
             environment.systemPackages =
               (with pkgs; [ htop ])
               ++ (mkSystemPackages { name = "festhest"; })
               ++ (mkSystemPackages { name = "amahoro"; })
+              ++ (mkSystemPackages { name = "amakuru"; })
             ;
             systemd.services = {
               inherit (mkSystemdService { name = "festhest"; }) festhest;
               inherit (mkSystemdService { name = "amahoro"; }) amahoro;
+              inherit (mkSystemdService { name = "amakuru"; }) amakuru;
             };
             users = {
               mutableUsers = false;
@@ -90,7 +92,7 @@ in
                   password = "root";
                 };
                 inherit (mkUser { name = "festhest"; }) festhest;
-                inherit (mkUser { name = "amahoro"; }) amahoro;
+                inherit (mkUser { name = "amakuru"; }) amakuru;
               };
             };
             security.sudo = {
