@@ -13,6 +13,7 @@ build-type:     Simple
 executable festhest
   main-is: Main.hs
   other-modules:
+      Chap10
       Chap7
       Chap8
       Chap9
@@ -23,16 +24,23 @@ executable festhest
   hs-source-dirs:
       src-exe
   default-extensions:
+      ApplicativeDo
       BlockArguments
+      DerivingStrategies
+      DataKinds
+      FlexibleInstances
       GADTs
+      GeneralizedNewtypeDeriving
       LambdaCase
       MultiParamTypeClasses
       OverloadedStrings
+      StandaloneDeriving
       QuasiQuotes
       TemplateHaskell
       TypeApplications
       TypeFamilies
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+      UndecidableInstances
+  ghc-options: -O2 -threaded -rtsopts -with-rtsopts=-N
   extra-libraries:
       z
   build-depends:
@@ -42,8 +50,15 @@ executable festhest
     , blaze-html
     , bytestring
     , http-types
+    , monad-logger
+    , optics
+    , optics-extra
+    , persistent-sqlite
+    , persistent-template
+    , resourcet
     , text
     , time
+    , transformers
     , wai
     , wai-extra
     , yesod

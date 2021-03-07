@@ -6,6 +6,7 @@
 
 module Main where
 
+import qualified Chap10
 import qualified Chap7
 import qualified Chap8
 import qualified Chap9
@@ -141,7 +142,8 @@ main = do
     warp 5083 Error.App,
     warp 5087 Chap7.App,
     warp 5088 Chap8.App,
-    warp 5089 Chap9.App
+    Chap9.run 5089,
+    Chap10.run 5090
     ]
     & Async.mapConcurrently_ id
   putStrLn "Ending Warp 80 / 81 App..."

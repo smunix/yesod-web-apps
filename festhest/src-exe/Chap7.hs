@@ -16,7 +16,8 @@ data Sub where
 data App where
   App :: App
 
-instance Yesod App
+instance Yesod App where
+  makeSessionBackend _ = defaultClientSessionBackend 1 "chap-7.aes" <&> pure
 
 newtype I where
   I :: Int -> I

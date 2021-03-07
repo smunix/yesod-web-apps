@@ -29,8 +29,8 @@ import GHC.Generics (Generic)
 import Network.HTTP.Types
 import Yesod
 
-data App
-  = App ConnectionPool
+newtype App where
+  App :: ConnectionPool -> App
 
 share
   [mkPersist sqlSettings, mkMigrate "migrateAll"]
@@ -150,7 +150,7 @@ getApiItemR itemId = do
 
 postApiItemsR :: Handler Value
 postApiItemsR = do
-  item <- requireJsonBody :: Handler Item
+  item <- requireCheckJsonBody :: Handler Item
   mItem <- insertItem item True
   case mItem of
     Left errors -> invalidArgs errors

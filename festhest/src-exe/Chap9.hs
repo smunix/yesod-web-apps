@@ -4,6 +4,7 @@
 module Chap9 where
 
 import Data.Function
+import Data.Functor
 import Yesod
 
 data App where
@@ -98,9 +99,11 @@ postSetMessageR = do
   redirect HomeR
 
 instance Yesod App where
+  makeSessionBackend _ = defaultClientSessionBackend 1 "chap-9.aes" <&> pure
   defaultLayout w = do
     pc <- widgetToPageContent w
     mmsg <- getMessage
+    mname <- lookupSession "name"
     withUrlRenderer
       [hamlet|
              $doctype 5
@@ -109,10 +112,17 @@ instance Yesod App where
                  <title>#{pageTitle pc}
                  ^{pageHead pc}
                <body>
+                 $maybe n <- mname
+                   <h1>#{n}
                  $maybe m <- mmsg
-                   <p>Your message was: #{m}
+                   <p>#{m}
                  ^{pageBody pc}
       |]
 
 instance RenderMessage App FormMessage where
   renderMessage _ _ = defaultFormMessage
+
+run :: Int -> IO ()
+run port = do
+  putStrLn $ "Chap9 => port " <> show port
+  App & warp port
