@@ -1,20 +1,30 @@
 name: festhest
 version: "0.0.0.1"
 default-extensions:
+  - ApplicativeDo
   - BlockArguments
+  - DerivingStrategies
+  - DataKinds
+  - FlexibleInstances
   - GADTs
+  - GeneralizedNewtypeDeriving
   - LambdaCase
   - MultiParamTypeClasses
   - OverloadedStrings
+  - StandaloneDeriving
   - QuasiQuotes
   - TemplateHaskell
   - TypeApplications
   - TypeFamilies
+  - UndecidableInstances
 executables:
   festhest:
     main: Main.hs
     source-dirs: src-exe
     ghc-options:
+      - -O2
+      # - -ddump-splices
+      # - -split-sections
       - -threaded
       - -rtsopts
       - -with-rtsopts=-N
@@ -25,8 +35,15 @@ executables:
       - blaze-html
       - bytestring
       - http-types
+      - monad-logger
+      - optics
+      - optics-extra
+      - persistent-sqlite
+      - persistent-template
+      - resourcet
       - text
       - time
+      - transformers
       - wai-extra
       - wai
       - yesod

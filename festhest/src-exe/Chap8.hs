@@ -25,7 +25,8 @@ mkYesod
 /person PersonR POST
 |]
 
-instance Yesod App
+instance Yesod App where
+  makeSessionBackend _ = defaultClientSessionBackend 1 "chap-8.aes" <&> pure
 
 instance RenderMessage App FormMessage where
   renderMessage _ _langs = defaultFormMessage
