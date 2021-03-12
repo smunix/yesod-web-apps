@@ -14,6 +14,8 @@ executable festhest
   main-is: Main.hs
   other-modules:
       Chap10
+      Chap11
+      Chap13
       Chap7
       Chap8
       Chap9
@@ -34,27 +36,35 @@ executable festhest
       LambdaCase
       MultiParamTypeClasses
       OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
       StandaloneDeriving
       QuasiQuotes
       TemplateHaskell
+      TupleSections
       TypeApplications
       TypeFamilies
       UndecidableInstances
+      ViewPatterns
   ghc-options: -O2 -threaded -rtsopts -with-rtsopts=-N
   extra-libraries:
       z
   build-depends:
-      async
+      aeson
+    , async
     , base
+    , base64-bytestring
     , blaze-builder
     , blaze-html
     , bytestring
     , http-types
     , monad-logger
+    , mwc-random
     , optics
     , optics-extra
     , persistent-sqlite
     , persistent-template
+    , random
     , resourcet
     , text
     , time

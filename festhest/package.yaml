@@ -11,12 +11,16 @@ default-extensions:
   - LambdaCase
   - MultiParamTypeClasses
   - OverloadedStrings
+  - RecordWildCards
+  - ScopedTypeVariables
   - StandaloneDeriving
   - QuasiQuotes
   - TemplateHaskell
+  - TupleSections
   - TypeApplications
   - TypeFamilies
   - UndecidableInstances
+  - ViewPatterns
 executables:
   festhest:
     main: Main.hs
@@ -29,17 +33,21 @@ executables:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
+      - aeson
       - async
       - base
+      - base64-bytestring
       - blaze-builder
       - blaze-html
       - bytestring
       - http-types
       - monad-logger
+      - mwc-random
       - optics
       - optics-extra
       - persistent-sqlite
       - persistent-template
+      - random
       - resourcet
       - text
       - time

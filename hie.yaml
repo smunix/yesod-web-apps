@@ -24,5 +24,32 @@ cradle:
     - path: "festhest/src-exe/Main.hs"
       component: "festhest:exe:festhest"
 
+    - path: "festhest/src-exe/Chap10.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Chap11.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Chap13.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Chap7.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Chap8.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Chap9.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Error.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Message.hs"
+      component: "festhest:exe:festhest"
+
+    - path: "festhest/src-exe/Slash.hs"
+      component: "festhest:exe:festhest"
+
     - path: "festhest/src-exe/Paths_festhest.hs"
       component: "festhest:exe:festhest"
