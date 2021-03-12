@@ -1,7 +1,7 @@
 # yesod-web-apps
 Selected Web apps
 
-## Ghcid for RDD (Rapid Development Driven)
+## Ghcid for RDD (Rapid Driven Development)
 This is a way to setup a quick feedback loop (The traditional Yesod devel solution is painfully slow).
 The example below shows how to work with Amahoro, which was created with the Scaffolding Yesod tool:
 
